@@ -55,6 +55,19 @@ public class SkinConsultationGUI extends JFrame {
             }
         });
         buttonPanel.add(viewConsultationButton);
+
+        //create the "Save" button
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // save the data to the text file
+                manager.save();
+                JOptionPane.showMessageDialog(SkinConsultationGUI.this, "Data successfully saved to the file.");
+            }
+        });
+        buttonPanel.add(saveButton);
+
         buttonPanel.setBackground(new Color(252, 228, 220));
 
         panel.add(buttonPanel, BorderLayout.SOUTH);
