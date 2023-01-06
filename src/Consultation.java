@@ -1,38 +1,62 @@
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.*;
 
 public class Consultation {
 
     private Patient patient;  // reference to the patient who has booked the consultation
     private Doctor doctor;  // reference to the doctor who will conduct the consultation
-    private LocalDate date;
-    private LocalTime time;
+    private Date date;
+    private Date starttime;
+    private Date endtime;
+    private String encryptedNotes;
+    private String encryptedImage;
     private int cost;
-    private String notes;
 
-    public Consultation(Patient patient, Doctor doctor,LocalDate date, LocalTime time, int cost, String notes) {
+    public Consultation(Patient patient, Doctor doctor,Date date, Date starttime,Date endtime, String encryptednote, String encryptedImage, int cost) {
         this.patient = patient;
         this.doctor = doctor;
         this.date = date;
-        this.time = time;
+        this.starttime = starttime;
+        this.endtime = endtime;
+        this.encryptedNotes = encryptednote;
+        this.encryptedImage = encryptedImage;
         this.cost = cost;
-        this.notes = notes;
     }
 
-    public LocalDate getDate() {
+    public Patient getPatient(){return patient;}
+    public Doctor getDoctor(){return doctor;}
+
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public LocalTime getTime() {
-        return time;
+    public Date getStarttime() {
+        return starttime;
+    }
+    public void setStarttime(Date starttime) {
+        this.starttime = starttime;
     }
 
-    public void setTime(LocalTime time) {
-        this.time = time;
+    public Date getEndtime(){
+        return endtime;
+    }
+    public void setEndtime(Date endtime){ this.endtime = endtime;}
+
+    public String getEncryptedNotes() {
+        return encryptedNotes;
+    }
+
+    public void setEncryptedNotes(String encryptedNotes) {this.encryptedNotes = encryptedNotes;}
+
+    public String getEncryptedImage() {
+        return encryptedImage;
+    }
+
+    public void setEncryptedImage(String encryptedImage) {
+        this.encryptedImage = encryptedImage;
     }
 
     public int getCost() {
@@ -42,13 +66,4 @@ public class Consultation {
     public void setCost(int cost) {
         this.cost = cost;
     }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
 }

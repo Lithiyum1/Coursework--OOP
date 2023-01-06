@@ -7,9 +7,14 @@ import java.util.*;
 
 public class WestminsterSkinConsultationManager implements SkinConsultationManager {
     private List<Doctor> doctors;
+    public static List<Consultation> consultations;
+
+    public static List<Patient> patients;
 
     public WestminsterSkinConsultationManager() {
         this.doctors = new ArrayList<>();
+        consultations = new ArrayList<>();
+        patients = new ArrayList<>();
     }
 
     public void displayMenu() {
@@ -18,9 +23,10 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
         System.out.println("1. Add doctor");
         System.out.println("2. Delete doctor");
         System.out.println("3. Print doctors");
-        System.out.println("4. Save");
-        System.out.println("5. Load");
-        System.out.println("6. Quit the Program");
+        System.out.println("4. Save to file");
+        System.out.println("5. Load from file");
+        System.out.println("6. Load GUI");
+        System.out.println("7. Quit the Program");
         System.out.println("-------------------");
         System.out.println("Enter your choice: ");
     }
@@ -84,7 +90,7 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
 
     @Override
     public void printDoctors() {
-        this.doctors.sort(Comparator.comparing(Person::getSurname));
+        this.doctors.sort(Comparator.comparing(Doctor::getLicenceNumber));
         for (Doctor doctor : this.doctors) {
             System.out.println(doctor.getName() + " " + doctor.getSurname() + " (" + doctor.getDateOfBirth() + ") - " + doctor.getMobileNumber() + " - " + doctor.getLicenceNumber() + " - " + doctor.getSpecialisation());
         }
@@ -98,6 +104,8 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
         {
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
                 oos.writeObject(this.doctors);
+                oos.writeObject(consultations);
+                oos.writeObject(patients);
         } catch (IOException e) {
                 e.printStackTrace();
         }
@@ -110,6 +118,8 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
                 ObjectInputStream ois = new ObjectInputStream(fis);
 
                 doctors = (List<Doctor>) ois.readObject();
+                consultations = (List<Consultation>) ois.readObject();
+                patients = (List<Patient>) ois.readObject();
 
                 ois.close();
                 fis.close();
@@ -123,14 +133,26 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
         return doctors;
     }
 
-    public void sortDoctorsAlphabetically() {
-        // use a comparator to sort the list of doctors alphabetically by surname
-        Collections.sort(doctors, new Comparator<Doctor>() {
-            @Override
-            public int compare(Doctor d1, Doctor d2) {
-                return d1.getSurname().compareTo(d2.getSurname());
+    public void addConsultation(Consultation consultation) {
+        consultations.add(consultation);
+    }
+    public List<Consultation> getConsultations(){return consultations;}
+
+    public void addPatients(Patient patient){patients.add(patient);}
+
+    public List<Patient> getPatients(){return patients;}
+
+    public boolean isAvailable(Date date, Date startTime, Date endTime, Doctor
+            selectedDoctor) {
+
+        if(consultations.isEmpty()){return true;}
+
+        for (Consultation consultation:selectedDoctor.getConsultations()){
+            if (consultation.getDate().equals(date)  && !(consultation.getEndtime().before(startTime)||endTime.before(consultation.getStarttime()))){
+                return false;
             }
-        });
+        }
+        return true;
     }
 
 }

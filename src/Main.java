@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.Scanner;
 
 public class Main {
@@ -20,7 +21,17 @@ public class Main {
                 manager.save();
             } else if (answer == 5) {
                 manager.load();
-            } else if (answer == 6) {
+            }else if (answer == 6){
+                manager.load();
+                // create a new Skin Consultation GUI instance
+                SkinConsultationGUI gui = new SkinConsultationGUI(manager);
+                // set the frame properties
+                gui.setTitle("Skin Consultation Centre");
+                gui.setSize(800, 600);
+                gui.setLocationRelativeTo(null);
+                gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                gui.setVisible(true);
+            } else if (answer == 7) {
                 System.out.println("Program has ended");
                 break;
             } else {

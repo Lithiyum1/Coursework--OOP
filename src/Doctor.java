@@ -3,10 +3,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Doctor extends Person implements Serializable {
     private String licenceNumber;
     private String specialisation;
+
+    List<Consultation> consultations = new ArrayList<>();
+
 
     public Doctor() {
 
@@ -48,5 +53,14 @@ public class Doctor extends Person implements Serializable {
 
         licenceNumber = (String) in.readObject();
         specialisation = (String) in.readObject();
+        consultations = new ArrayList<>();
+    }
+    public List<Consultation> getConsultations() {
+        return consultations;
+    }
+
+    public void addConsultations(Consultation consultation){
+        consultations.add(consultation);
+
     }
 }
