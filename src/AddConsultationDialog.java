@@ -105,31 +105,10 @@ public class AddConsultationDialog extends JDialog {
                 int result = fileChooser.showOpenDialog(AddConsultationDialog.this);
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
+                    String imagePath = selectedFile.getAbsolutePath();
 
-                    // Create a byte array of file length
-                    byte[] byteimage = new byte[(int) selectedFile.length()];
-
-                    // Read file content into byte array
-                    FileInputStream inputStream = null;
                     try {
-                        inputStream = new FileInputStream(selectedFile);
-                    } catch (FileNotFoundException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    try {
-                        inputStream.read(byteimage);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    try {
-                        inputStream.close();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-
-                    String imagestring = new String(byteimage);
-                    try {
-                         encryptedimage = EncryptionUtil.encrypt(imagestring);
+                        encryptedimage = EncryptionUtil.encrypt(imagePath);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
@@ -206,6 +185,7 @@ public class AddConsultationDialog extends JDialog {
                     cost = 25 * hours;
                 }
 
+                //check patient innawada kiyala
 
                 // create a new Patient instance
                 Patient patient = new Patient(name, surname, dateOfBirth, mobile, id);

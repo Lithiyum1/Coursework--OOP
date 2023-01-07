@@ -44,7 +44,7 @@ class ViewConsultationDialog extends JDialog {
             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
             Date startTimeObject = consultation.getStarttime();
             String formattedStartTime = timeFormat.format(startTimeObject);
-            Date endTimeObject = consultation.getStarttime();
+            Date endTimeObject = consultation.getEndtime();
             String formattedEndTime = timeFormat.format(endTimeObject);
 
             Object[] rowData = {consultation.getPatient().getName(), consultation.getDoctor().getName(), formattedDate,
@@ -78,68 +78,10 @@ class ViewConsultationDialog extends JDialog {
         ViewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Get the selected row from the table
-                int selectedRow = consultationTable.getSelectedRow();
-                if (selectedRow < 0) {
-                    JOptionPane.showMessageDialog(consultationTable, "Please select a row from the table first.");
-                    return;
-                }
 
-                //Getting the image and note
-                Consultation consultation = manager.getConsultations().get(selectedRow);
-                String encryptedimage = consultation.getEncryptedImage();
-                String decryptedimage = null;
-                try {
-                    decryptedimage = EncryptionUtil.decrypt(encryptedimage);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                byte[] bytes = decryptedimage.getBytes();
-                /*BufferedImage image = null;
-                try {
-                    image = ImageIO.read(new ByteArrayInputStream(bytes));
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }*/
-                FileOutputStream outputStream = null;
-                try {
-                    outputStream = new FileOutputStream("sample.jpg");
-                } catch (FileNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-                try {
-                    outputStream.write(bytes);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                try {
-                    outputStream.close();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                // Load the image from the file system
-                Image image = null;
-                try {
-                    image = ImageIO.read(new File("sample.jpg"));
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-
-                String encryptednotes = consultation.getEncryptedNotes();
-                String decryptednotes = null;
-                try {
-                    decryptednotes = EncryptionUtil.decrypt(encryptednotes);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                // Create a label to display the text and image
-                ImageIcon icon = new ImageIcon(image);
-                JLabel imagelabel = new JLabel(icon);
-                JLabel noteslabel = new JLabel(decryptednotes);
-
-                // Show the dialog with the label
-                JOptionPane.showMessageDialog(imagelabel, noteslabel);
+                // show the view consultation dialog
+                ViewDetailsDialog dialog = new ViewDetailsDialog(ViewConsultationDialog.this,manager,consultationTable);
+                dialog.setVisible(true);
 
             }});
 

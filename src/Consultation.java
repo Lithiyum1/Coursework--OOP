@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.*;
 
-public class Consultation {
+public class Consultation implements Serializable {
 
     private Patient patient;  // reference to the patient who has booked the consultation
     private Doctor doctor;  // reference to the doctor who will conduct the consultation
@@ -10,6 +11,8 @@ public class Consultation {
     private String encryptedNotes;
     private String encryptedImage;
     private int cost;
+
+    private static final long serialVersionUID = 8537993204036820764L;
 
     public Consultation(Patient patient, Doctor doctor,Date date, Date starttime,Date endtime, String encryptednote, String encryptedImage, int cost) {
         this.patient = patient;

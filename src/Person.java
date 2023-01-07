@@ -7,6 +7,8 @@ public class Person implements Serializable {
     private LocalDate dateOfBirth;
     private String mobileNumber;
 
+    private static final long serialVersionUID = 8537993204036820764L;
+
     public Person(){
 
     }
