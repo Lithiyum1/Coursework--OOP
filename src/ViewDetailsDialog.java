@@ -7,7 +7,7 @@ import java.io.IOException;
 
 class ViewDetailsDialog extends JDialog {
 
-    public ViewDetailsDialog(JDialog parent,WestminsterSkinConsultationManager manager,JTable consultationTable) {
+    public ViewDetailsDialog(JDialog parent, WestminsterSkinConsultationManager manager, JTable consultationTable) {
         super(parent, "View Details", true);
 
         // Get the selected row from the table
@@ -44,13 +44,13 @@ class ViewDetailsDialog extends JDialog {
         }
 
         // Create a label to display the text and image
-        ImageIcon icon = new ImageIcon(image.getScaledInstance(640,480,Image.SCALE_SMOOTH));
+        ImageIcon icon = new ImageIcon(image.getScaledInstance(640, 480, Image.SCALE_SMOOTH));
         JLabel imagelabel = new JLabel();
         imagelabel.setIcon(icon);
         JLabel noteslabel = new JLabel(decryptednotes);
 
-        add("West",noteslabel);
-        add("Center",imagelabel);
+        add("West", noteslabel);
+        add("Center", imagelabel);
 
         setSize(850, 300);
         setLocationRelativeTo(parent);

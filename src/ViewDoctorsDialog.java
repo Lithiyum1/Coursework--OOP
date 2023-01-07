@@ -17,7 +17,7 @@ public class ViewDoctorsDialog extends JDialog {
     private DefaultTableModel tableModel;
 
 
-    public ViewDoctorsDialog(JFrame parent,WestminsterSkinConsultationManager manager) {
+    public ViewDoctorsDialog(JFrame parent, WestminsterSkinConsultationManager manager) {
         super(parent, "View Doctors", true);
 
         this.manager = manager;

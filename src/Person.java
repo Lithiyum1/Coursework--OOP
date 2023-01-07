@@ -9,9 +9,10 @@ public class Person implements Serializable {
 
     private static final long serialVersionUID = 8537993204036820764L;
 
-    public Person(){
+    public Person() {
 
     }
+
     public Person(String name, String surname, LocalDate dateOfBirth, String mobileNumber) {
         this.name = name;
         this.surname = surname;

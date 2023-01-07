@@ -7,9 +7,9 @@ import java.util.*;
 
 public class WestminsterSkinConsultationManager implements SkinConsultationManager {
     private List<Doctor> doctors;
-    public static List<Consultation> consultations;
+    private List<Consultation> consultations;
 
-    public static List<Patient> patients;
+    private List<Patient> patients;
 
     public WestminsterSkinConsultationManager() {
         this.doctors = new ArrayList<>();
@@ -20,13 +20,9 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
     public void displayMenu() {
         System.out.println("Westminster Skin Consultation Manager");
         System.out.println("-------------------");
-        System.out.println("1. Add doctor");
-        System.out.println("2. Delete doctor");
-        System.out.println("3. Print doctors");
-        System.out.println("4. Save to file");
-        System.out.println("5. Load from file");
-        System.out.println("6. Load GUI");
-        System.out.println("7. Quit the Program");
+        System.out.println("1. Console Menu(Admin)");
+        System.out.println("2. GUI(User)");
+        System.out.println("3. Quit the Program");
         System.out.println("-------------------");
         System.out.println("Enter your choice: ");
     }
@@ -100,33 +96,31 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
     @Override
     public void save() {
         try (
-                FileOutputStream fos = new FileOutputStream("doctors.txt"))
-        {
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(this.doctors);
-                oos.writeObject(consultations);
-                oos.writeObject(patients);
+                FileOutputStream fos = new FileOutputStream("doctors.txt")) {
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(this.doctors);
+            oos.writeObject(consultations);
+            oos.writeObject(patients);
         } catch (IOException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
     @Override
     public void load() {
         try {
-                FileInputStream fis = new FileInputStream("doctors.txt");
-                ObjectInputStream ois = new ObjectInputStream(fis);
+            FileInputStream fis = new FileInputStream("doctors.txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
 
-                doctors = (List<Doctor>) ois.readObject();
-                consultations = (List<Consultation>) ois.readObject();
-                patients = (List<Patient>) ois.readObject();
+            doctors = (List<Doctor>) ois.readObject();
+            consultations = (List<Consultation>) ois.readObject();
+            patients = (List<Patient>) ois.readObject();
 
-                ois.close();
-                fis.close();
-        } catch (IOException | ClassNotFoundException e)
-            {
-                e.printStackTrace();
-            }
+            ois.close();
+            fis.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Doctor> getDoctors() {
@@ -136,24 +130,33 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
     public void addConsultation(Consultation consultation) {
         consultations.add(consultation);
     }
-    public List<Consultation> getConsultations(){return consultations;}
 
-    public void addPatients(Patient patient){patients.add(patient);}
+    public List<Consultation> getConsultations() {
+        return consultations;
+    }
 
-    public List<Patient> getPatients(){return patients;}
+    public void addPatients(Patient patient) {
+        patients.add(patient);
+    }
+
+    public List<Patient> getPatients() {
+        return patients;
+    }
 
     public boolean isAvailable(Date date, Date startTime, Date endTime, Doctor
             selectedDoctor) {
 
-        if(consultations.isEmpty()){return true;}
+        if (consultations.isEmpty()) {
+            return true;
+        }
 
-        for (Consultation consultation:selectedDoctor.getConsultations()){
-            if (consultation.getDate().equals(date)  && !(consultation.getEndtime().before(startTime)||endTime.before(consultation.getStarttime()))){
+        for (Consultation consultation : selectedDoctor.getConsultations()) {
+            if (consultation.getDate().equals(date) && !(consultation.getEndtime().before(startTime) || endTime.before(consultation.getStarttime()))) {
                 return false;
             }
         }
         return true;
     }
-
 }
+
 

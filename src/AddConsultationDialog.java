@@ -5,9 +5,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,7 +26,7 @@ public class AddConsultationDialog extends JDialog {
     String encryptedimage;
 
 
-    public AddConsultationDialog(JFrame parent,WestminsterSkinConsultationManager manager) {
+    public AddConsultationDialog(JFrame parent, WestminsterSkinConsultationManager manager) {
         super(parent, "Add Consultation", true);
 
         this.manager = manager;
@@ -41,16 +38,16 @@ public class AddConsultationDialog extends JDialog {
         JLabel Datelabel = new JLabel();
         Datelabel.setText("Pick a date , Month & Year ");
 
-        String[] Dates={"01","02","03","04","05","06","07","08","09","10",
-                "11","12","13","14","15","16","17","18","19","20",
-                "21","22","23","24","25","26","27","28","29","30","31"};
+        String[] Dates = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+                "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+                "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
         JComboBox<String> comboBoxDates = new JComboBox<>(Dates);
 
-        String[] Months={"01","02","03","04","05","06","07","08","09","10",
-                "11","12"};
+        String[] Months = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+                "11", "12"};
         JComboBox<String> comboBoxMonths = new JComboBox<>(Months);
 
-        String[] Year ={"2022","2023"};
+        String[] Year = {"2022", "2023"};
         JComboBox<String> comboBoxYear = new JComboBox<>(Year);
 
         JLabel Timelabel = new JLabel();
@@ -58,12 +55,12 @@ public class AddConsultationDialog extends JDialog {
 
         JLabel Fromlabel = new JLabel();
         Fromlabel.setText("From");
-        String[] From ={"15:00","16:00","17:00","18:00","19:00"};
+        String[] From = {"15:00", "16:00", "17:00", "18:00", "19:00"};
         JComboBox<String> comboBoxFrom = new JComboBox<>(From);
 
         JLabel Tolabel = new JLabel();
         Tolabel.setText("To");
-        String[] To ={"16:00","17:00","18:00","19:00","20:00"};
+        String[] To = {"16:00", "17:00", "18:00", "19:00", "20:00"};
         JComboBox<String> comboBoxTo = new JComboBox<>(To);
 
         JLabel LicenceNumberlabel = new JLabel("Enter Doctor's ID Number: ");
@@ -116,7 +113,6 @@ public class AddConsultationDialog extends JDialog {
             }
         });
 
-
         JButton addButton = new JButton("Add");
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -137,7 +133,7 @@ public class AddConsultationDialog extends JDialog {
                 String starTimeString = (String) comboBoxFrom.getSelectedItem();
                 Date startTime = null;
                 try {
-                    startTime = sdf.parse(dateString+" "+starTimeString);
+                    startTime = sdf.parse(dateString + " " + starTimeString);
                 } catch (ParseException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -145,7 +141,7 @@ public class AddConsultationDialog extends JDialog {
                 String endTimeString = (String) comboBoxTo.getSelectedItem();
                 Date endTime = null;
                 try {
-                    endTime = sdf.parse(dateString+" "+endTimeString);
+                    endTime = sdf.parse(dateString + " " + endTimeString);
                 } catch (ParseException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -161,7 +157,7 @@ public class AddConsultationDialog extends JDialog {
                 String notes = notesField.getText();
                 String encryptednote;
                 try {
-                     encryptednote = EncryptionUtil.encrypt(notes);
+                    encryptednote = EncryptionUtil.encrypt(notes);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -170,28 +166,38 @@ public class AddConsultationDialog extends JDialog {
                 int start = Integer.parseInt(parts[0]);
                 String[] parts1 = endTimeString.split(":");
                 int end = Integer.parseInt(parts1[0]);
-                int hours = end-start;
+                int hours = end - start;
 
                 boolean isNew = true;
-                for (Patient patient:manager.getPatients()){
-                    if (patient.getId() == id ){
+                for (Patient patient : manager.getPatients()) {
+                    if (patient.getId() == id) {
                         isNew = false;
+                        break;
                     }
                 }
                 int cost;
-                if (isNew){
+                if (isNew) {
                     cost = 15 * hours;
-                }else {
+                } else {
                     cost = 25 * hours;
                 }
 
-                //check patient innawada kiyala
+                //check if patient is already in the system
+                Patient patient = null;
+                if (isNew) {
+                    // create a new Patient instance
+                    patient = new Patient(name, surname, dateOfBirth, mobile, id);
 
-                // create a new Patient instance
-                Patient patient = new Patient(name, surname, dateOfBirth, mobile, id);
-
-                // add the patient to the manager
-                manager.addPatients(patient);
+                    // add the patient to the manager
+                    manager.addPatients(patient);
+                } else {
+                    for (Patient checkpatient : manager.getPatients()) {
+                        if (checkpatient.getId() == id) {
+                            patient = checkpatient;
+                        }
+                    }
+                    JOptionPane.showMessageDialog(AddConsultationDialog.this, "This patient is already in the system");
+                }
 
                 // get the selected doctor
                 String licenceNumber = (LicenceNumberField.getText());
@@ -203,7 +209,7 @@ public class AddConsultationDialog extends JDialog {
                 }
 
                 // book a consultation with the selected doctor
-                Doctor bookedDoctor = bookConsultation(selectedDoctor, patient, date, startTime, endTime,encryptednote,encryptedimage,cost );
+                Doctor bookedDoctor = bookConsultation(selectedDoctor, patient, date, startTime, endTime, encryptednote, encryptedimage, cost);
 
                 // show a message if the consultation was booked successfully
                 if (bookedDoctor != null) {
@@ -214,7 +220,6 @@ public class AddConsultationDialog extends JDialog {
 
             }
         });
-
 
 
         // create a table model to hold the data for the table
@@ -259,7 +264,7 @@ public class AddConsultationDialog extends JDialog {
         topPanel.setBackground(new Color(252, 228, 220));
 
         JPanel comboBoxPanel1 = new JPanel();
-        comboBoxPanel1.setLayout(new GridLayout(1,0));
+        comboBoxPanel1.setLayout(new GridLayout(1, 0));
         comboBoxPanel1.setBackground(new Color(252, 228, 220));
 
         comboBoxPanel1.add(Datelabel);
@@ -268,7 +273,7 @@ public class AddConsultationDialog extends JDialog {
         comboBoxPanel1.add(comboBoxYear);
 
         JPanel comboBoxPanel2 = new JPanel();
-        comboBoxPanel2.setLayout(new GridLayout(1,0));
+        comboBoxPanel2.setLayout(new GridLayout(1, 0));
         comboBoxPanel2.setBackground(new Color(252, 228, 220));
 
         comboBoxPanel2.add(Timelabel);
@@ -278,14 +283,14 @@ public class AddConsultationDialog extends JDialog {
         comboBoxPanel2.add(comboBoxTo);
 
         JPanel comboBoxPanel3 = new JPanel();
-        comboBoxPanel3.setLayout(new GridLayout(1,0));
+        comboBoxPanel3.setLayout(new GridLayout(1, 0));
         comboBoxPanel3.setBackground(new Color(252, 228, 220));
 
         comboBoxPanel3.add(LicenceNumberlabel);
         comboBoxPanel3.add(LicenceNumberField);
 
         JPanel comboBoxPanel4 = new JPanel();
-        comboBoxPanel4.setLayout(new GridLayout(3,0));
+        comboBoxPanel4.setLayout(new GridLayout(3, 0));
         comboBoxPanel4.setBackground(new Color(252, 228, 220));
 
         topPanel.add(comboBoxPanel1);
@@ -293,7 +298,7 @@ public class AddConsultationDialog extends JDialog {
         topPanel.add(comboBoxPanel3);
         topPanel.add(comboBoxPanel4);
 
-        panel.add(inputPanel,BorderLayout.NORTH);
+        panel.add(inputPanel, BorderLayout.NORTH);
         panel.add(topPanel, BorderLayout.SOUTH);
         panel.add(scrollPane, BorderLayout.CENTER);
         panel.add(buttonPanel, BorderLayout.EAST);
@@ -308,26 +313,26 @@ public class AddConsultationDialog extends JDialog {
     }
 
     // method to book a consultation with the selected doctor
-    private Doctor bookConsultation(Doctor selectedDoctor,Patient patient, Date date,Date startTime,Date endTime,String encryptednotes, String encryptedimage, int cost ) {
+    private Doctor bookConsultation(Doctor selectedDoctor, Patient patient, Date date, Date startTime, Date endTime, String encryptednotes, String encryptedimage, int cost) {
 
         // check if the doctor is available at the specified date and time
-        if (manager.isAvailable(date,startTime,endTime,selectedDoctor)) {
+        if (manager.isAvailable(date, startTime, endTime, selectedDoctor)) {
             // book a consultation with the selected doctor
             // create a new Consultation instance
-            Consultation consultation = new Consultation(patient,selectedDoctor,date,startTime,endTime, encryptednotes, encryptedimage,cost);
+            Consultation consultation = new Consultation(patient, selectedDoctor, date, startTime, endTime, encryptednotes, encryptedimage, cost);
 
             selectedDoctor.addConsultations(consultation);
 
             // add the consultation to the manager
             manager.addConsultation(consultation);
             return selectedDoctor;
-        }else {
+        } else {
             // if the selected doctor is not available, try to find another doctor who is available
             for (Doctor doctor : manager.getDoctors()) {
-                if (manager.isAvailable(date,startTime,endTime,doctor)) {
+                if (manager.isAvailable(date, startTime, endTime, doctor)) {
                     // book a consultation with the available doctor
                     // create a new Consultation instance
-                    Consultation consultation = new Consultation(patient,doctor,date,startTime,endTime, encryptednotes, encryptedimage,cost);
+                    Consultation consultation = new Consultation(patient, doctor, date, startTime, endTime, encryptednotes, encryptedimage, cost);
 
                     // add the consultation to the manager
                     manager.addConsultation(consultation);

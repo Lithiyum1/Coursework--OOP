@@ -18,7 +18,7 @@ class ViewConsultationDialog extends JDialog {
 
     private DefaultTableModel tableModel;
 
-    public ViewConsultationDialog(JFrame parent,WestminsterSkinConsultationManager manager) {
+    public ViewConsultationDialog(JFrame parent, WestminsterSkinConsultationManager manager) {
         super(parent, "View Consultation", true);
 
         this.manager = manager;
@@ -80,14 +80,15 @@ class ViewConsultationDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
 
                 // show the view consultation dialog
-                ViewDetailsDialog dialog = new ViewDetailsDialog(ViewConsultationDialog.this,manager,consultationTable);
+                ViewDetailsDialog dialog = new ViewDetailsDialog(ViewConsultationDialog.this, manager, consultationTable);
                 dialog.setVisible(true);
 
-            }});
+            }
+        });
 
         buttonPanel.add(ViewButton);
         buttonPanel.setBackground(new Color(252, 228, 220));
-        panel.add(buttonPanel,BorderLayout.SOUTH);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
 
         setSize(850, 300);
         setLocationRelativeTo(parent);

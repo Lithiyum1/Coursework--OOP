@@ -26,7 +26,7 @@ public class SkinConsultationGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // show the view doctors dialog
-                ViewDoctorsDialog dialog = new ViewDoctorsDialog(SkinConsultationGUI.this,manager);
+                ViewDoctorsDialog dialog = new ViewDoctorsDialog(SkinConsultationGUI.this, manager);
                 dialog.setVisible(true);
             }
         });
@@ -38,7 +38,7 @@ public class SkinConsultationGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // show the add consultation dialog
-                AddConsultationDialog dialog = new AddConsultationDialog(SkinConsultationGUI.this,manager);
+                AddConsultationDialog dialog = new AddConsultationDialog(SkinConsultationGUI.this, manager);
                 dialog.setVisible(true);
             }
         });
@@ -50,7 +50,7 @@ public class SkinConsultationGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // show the view consultation dialog
-                ViewConsultationDialog dialog = new ViewConsultationDialog(SkinConsultationGUI.this,manager);
+                ViewConsultationDialog dialog = new ViewConsultationDialog(SkinConsultationGUI.this, manager);
                 dialog.setVisible(true);
             }
         });
@@ -75,7 +75,7 @@ public class SkinConsultationGUI extends JFrame {
         add(panel, BorderLayout.CENTER);
         ImageIcon icon = new ImageIcon("image.jpg");
         JLabel label = new JLabel(icon);
-        panel.add(label,BorderLayout.CENTER);
+        panel.add(label, BorderLayout.CENTER);
     }
 
 }

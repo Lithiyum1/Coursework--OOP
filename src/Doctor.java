@@ -12,12 +12,11 @@ public class Doctor extends Person implements Serializable {
 
     List<Consultation> consultations = new ArrayList<>();
 
+    private static final long serialVersionUID = 8537993204036820764L;
 
-    public Doctor() {
+    public Doctor(){
 
     }
-
-    private static final long serialVersionUID = 8537993204036820764L;
 
     public Doctor(String name, String surname, LocalDate dateOfBirth, String mobileNumber, String licenceNumber, String specialisation) {
         super(name, surname, dateOfBirth, mobileNumber);
@@ -55,11 +54,12 @@ public class Doctor extends Person implements Serializable {
         specialisation = (String) in.readObject();
         consultations = new ArrayList<>();
     }
+
     public List<Consultation> getConsultations() {
         return consultations;
     }
 
-    public void addConsultations(Consultation consultation){
+    public void addConsultations(Consultation consultation) {
         consultations.add(consultation);
 
     }

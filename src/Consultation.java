@@ -14,7 +14,11 @@ public class Consultation implements Serializable {
 
     private static final long serialVersionUID = 8537993204036820764L;
 
-    public Consultation(Patient patient, Doctor doctor,Date date, Date starttime,Date endtime, String encryptednote, String encryptedImage, int cost) {
+    public Consultation(){
+
+    }
+
+    public Consultation(Patient patient, Doctor doctor, Date date, Date starttime, Date endtime, String encryptednote, String encryptedImage, int cost) {
         this.patient = patient;
         this.doctor = doctor;
         this.date = date;
@@ -25,8 +29,21 @@ public class Consultation implements Serializable {
         this.cost = cost;
     }
 
-    public Patient getPatient(){return patient;}
-    public Doctor getDoctor(){return doctor;}
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
 
     public Date getDate() {
         return date;
@@ -39,20 +56,26 @@ public class Consultation implements Serializable {
     public Date getStarttime() {
         return starttime;
     }
+
     public void setStarttime(Date starttime) {
         this.starttime = starttime;
     }
 
-    public Date getEndtime(){
+    public Date getEndtime() {
         return endtime;
     }
-    public void setEndtime(Date endtime){ this.endtime = endtime;}
+
+    public void setEndtime(Date endtime) {
+        this.endtime = endtime;
+    }
 
     public String getEncryptedNotes() {
         return encryptedNotes;
     }
 
-    public void setEncryptedNotes(String encryptedNotes) {this.encryptedNotes = encryptedNotes;}
+    public void setEncryptedNotes(String encryptedNotes) {
+        this.encryptedNotes = encryptedNotes;
+    }
 
     public String getEncryptedImage() {
         return encryptedImage;
