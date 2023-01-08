@@ -334,6 +334,7 @@ public class AddConsultationDialog extends JDialog {
                     // create a new Consultation instance
                     Consultation consultation = new Consultation(patient, doctor, date, startTime, endTime, encryptednotes, encryptedimage, cost);
 
+                    doctor.addConsultations(consultation);
                     // add the consultation to the manager
                     manager.addConsultation(consultation);
                     return doctor;
