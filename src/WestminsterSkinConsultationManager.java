@@ -86,8 +86,9 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
 
     @Override
     public void printDoctors() {
-        this.doctors.sort(Comparator.comparing(Doctor::getSurname));
-        for (Doctor doctor : this.doctors) {
+        List<Doctor> doctorsCopy = new ArrayList<>(doctors);
+        doctorsCopy.sort(Comparator.comparing(Doctor::getSurname));
+        for (Doctor doctor : doctorsCopy) {
             System.out.println(doctor.getName() + " " + doctor.getSurname() + " (" + doctor.getDateOfBirth() + ") - " + doctor.getMobileNumber() + " - " + doctor.getLicenceNumber() + " - " + doctor.getSpecialisation());
         }
 
