@@ -78,8 +78,8 @@ public class WestminsterSkinConsultationManager implements SkinConsultationManag
             return;
         }
 
+        System.out.println("Doctor deleted successfully: " + doctorToDelete.getName() + " " + doctorToDelete.getSurname() + " (" + doctorToDelete.getDateOfBirth() + ") - " + doctorToDelete.getMobileNumber() + " - " + doctorToDelete.getLicenceNumber() + " - " + doctorToDelete.getSpecialisation());
         this.doctors.remove(doctorToDelete);
-        System.out.println("Doctor deleted successfully: " + doctorToDelete);
         System.out.println("Total number of doctors in the centre: " + this.doctors.size());
 
     }
